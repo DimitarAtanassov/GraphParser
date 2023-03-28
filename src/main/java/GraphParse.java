@@ -5,10 +5,12 @@ import guru.nidi.graphviz.attribute.Rank;
 import guru.nidi.graphviz.attribute.Style;
 import guru.nidi.graphviz.engine.Format;
 import guru.nidi.graphviz.engine.Graphviz;
+import guru.nidi.graphviz.model.Link;
 import guru.nidi.graphviz.model.MutableGraph;
 import guru.nidi.graphviz.model.MutableNode;
 import guru.nidi.graphviz.model.Node;
 import guru.nidi.graphviz.parse.Parser;
+import org.w3c.dom.NodeList;
 
 import java.io.*;
 import java.util.*;
@@ -19,6 +21,7 @@ public class GraphParse {
     private MutableGraph g;
     private ArrayList<String> nodeList;
     Map<String, LinkedList<String>> adj;
+    String bfsPath = "";
     String dfsPath = "";
     String graphDir;
 
@@ -26,6 +29,7 @@ public class GraphParse {
     public GraphParse(String filePath)
     {
         parseGraph(filePath);
+        adj = new HashMap<String, LinkedList<String>>();
     }
     //Takes a filePath as an argument and creates a directed graph object
     public void parseGraph(String filePath) throws RuntimeException {
@@ -294,7 +298,43 @@ public class GraphParse {
     {
         adj.get(v1).add(v2);
     }
-    public boolean DFS(String src, String dst)
+    public void BFS(String src, String dst)
+    {
+        adjListSetup();
+        Set<String> visited = new HashSet<String>();
+        LinkedList<String> queue = new LinkedList<String>();
+        queue.add(src);
+        visited.add(src);
+        while(queue.isEmpty() == false)
+        {
+            int size = queue.size();
+            for(int i = 0 ; i < size; ++i)
+            {
+                String curr = queue.getFirst();
+                bfsPath = bfsPath+ curr + "->";
+                if(curr.equals(dst))
+                {
+                    return;
+                }
+                for(Map.Entry<String,LinkedList<String>> entry : adj.entrySet())
+                {
+                    if(entry.getKey().equals(curr))
+                    {
+                        for(int it = 0; it < entry.getValue().size(); it++)
+                        {
+                            if(visited.contains(entry.getValue().get(it)) == false)
+                            {
+                                queue.add(entry.getValue().get(it));
+                                visited.add(entry.getValue().get(it));
+                            }
+                        }
+                    }
+                }
+                queue.removeFirst();
+            }
+        }
+    }
+public boolean DFS(String src, String dst)
     {
         adjListSetup();
         Set<String> visited = new HashSet<String>();
