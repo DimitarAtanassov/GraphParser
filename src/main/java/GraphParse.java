@@ -22,6 +22,7 @@ public class GraphParse {
     private ArrayList<String> nodeList;
     Map<String, LinkedList<String>> adj;
     String bfsPath = "";
+    String dfsPath = "";
     String graphDir;
 
     //Constructor
@@ -333,6 +334,36 @@ public class GraphParse {
             }
         }
     }
+public boolean DFS(String src, String dst)
+    {
+        adjListSetup();
+        Set<String> visited = new HashSet<String>();
+        Stack<String> stack = new Stack<String>();
+        stack.add(src);
+        while(stack.isEmpty() == false)
+        {
+            String curr = stack.pop();
+            dfsPath = dfsPath + curr + "->";
+            if(curr.equals(src))
+            {
+                return true;
+            }
+            for(Map.Entry<String,LinkedList<String>> entry : adj.entrySet())
+            {
+                if(entry.getKey().equals(curr)){
+                    for(int it = 0; it < entry.getValue().size(); it++){
+                        if(visited.contains(entry.getValue().get(it)) == false)
+                        {
+                            visited.add(entry.getValue().get(it));
+                            stack.add(entry.getValue().get(it));
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
 
 
 }
