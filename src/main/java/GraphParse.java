@@ -344,7 +344,7 @@ public boolean DFS(String src, String dst)
         {
             String curr = stack.pop();
             dfsPath = dfsPath + curr + "->";
-            if(curr.equals(src))
+            if(curr.equals(dst))
             {
                 return true;
             }

@@ -4,32 +4,32 @@ import java.io.*;
 import java.util.*;
 
 import static guru.nidi.graphviz.model.Factory.*;
-Enum algoChoice
+enum algoChoice
 {
-  0
-  1
+    bfsAlgo,
+    dfsAlgo
 }
 public class Path {
-    algoChoice userChoice;
+
+    algoChoice userChoice = null;
     GraphParse graph;
-    Path(String filePath, userChoice)
+    Path(String filePath, algoChoice algo)
     {
         graph = new GraphParse(filePath);
-        this.userChoice = userChoice;
+        this.userChoice = algo;
     }
     public void GraphSearch(String src, String dst)
     {
-        Switch(userChoice)
+        switch(userChoice)
         {
-          case 0:
+          case bfsAlgo:
             graph.BFS(src,dst);
             System.out.println(graph.bfsPath.substring(0, graph.bfsPath.length() - 2));
             break;
-           case 1:
+           case dfsAlgo:
              graph.DFS(src,dst);
              System.out.println(graph.dfsPath.substring(0, graph.dfsPath.length() - 2));
              break;
-            
         }
     }
 }

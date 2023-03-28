@@ -1,5 +1,5 @@
 import java.io.IOException;
-
+import java.util.Scanner;
 public class Main {
     public static void main(String[] args) throws IOException {
           GraphParse graph;
@@ -17,7 +17,10 @@ public class Main {
         graph.outputDOTGraph("output1.dot");
         graph.outputGraphics("output3.png");
         Path path;
-        path = new Path("input.dot");
+        Scanner myObj = new Scanner(System.in);
+        System.out.println("Enter (bfsAlgo) for BFS traversal and Enter (dfsAlgo) for DFS traversal ");
+        algoChoice userInput = algoChoice.valueOf(myObj.nextLine());
+        path = new Path("input.dot", userInput);
         path.GraphSearch("a","d");
 
     }
