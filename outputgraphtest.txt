@@ -1,0 +1,7 @@
+Nodes: 4
+Node Labels: [d, c, b, a]
+Edges: 3
+Graph Directions:
+"a" -> "b"
+"b" -> "c"
+"b" -> "d"

@@ -1,0 +1,11 @@
+graph {
+
+
+    white -- cyan -- blue
+    white -- yellow -- green
+    white -- pink -- red
+
+    cyan -- green -- black
+    yellow -- red -- black
+    pink -- blue -- black
+}
