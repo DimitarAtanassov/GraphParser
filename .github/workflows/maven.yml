@@ -13,12 +13,12 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-permissions: read-all|write-all
+
 jobs:
   build:
 
     runs-on: ubuntu-latest
-
+    permissions: read-all|write-all
     steps:
     - uses: actions/checkout@v3
     - name: Set up JDK 11
