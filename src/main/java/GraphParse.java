@@ -18,6 +18,8 @@ import static guru.nidi.graphviz.model.Factory.*;
 public class GraphParse {
     private MutableGraph g;
     private ArrayList<String> nodeList;
+    Map<String, LinkedList<String>> adj;
+    String dfsPath = "";
     String graphDir;
 
     //Constructor
@@ -270,5 +272,58 @@ public class GraphParse {
             return false;
         }
     }
+    public void adjListSetup()
+    {
+        for(int i = 0; i < nodeList.size(); i++)
+        {
+            adj.putIfAbsent(nodeList.get(i),new LinkedList<String>());
+        }
+        for(int i = 0; i < nodeList.size(); i++)
+        {
+            for(int j = 0; j < nodeList.size(); j++)
+            {
+                if(containsEdge(nodeList.get(i), nodeList.get(j)))
+                {
+                    addNeighbor(nodeList.get(i), nodeList.get(j));
+                }
+            }
+        }
+
+    }
+    public void addNeighbor(String v1,String v2)
+    {
+        adj.get(v1).add(v2);
+    }
+    public boolean DFS(String src, String dst)
+    {
+        adjListSetup();
+        Set<String> visited = new HashSet<String>();
+        Stack<String> stack = new Stack<String>();
+        stack.add(src);
+        while(stack.isEmpty() == false)
+        {
+            String curr = stack.pop();
+            dfsPath = dfsPath + curr + "->";
+            if(curr.equals(src))
+            {
+                return true;
+            }
+            for(Map.Entry<String,LinkedList<String>> entry : adj.entrySet())
+            {
+                if(entry.getKey().equals(curr)){
+                    for(int it = 0; it < entry.getValue().size(); it++){
+                        if(visited.contains(entry.getValue().get(it)) == false)
+                        {
+                            visited.add(entry.getValue().get(it));
+                            stack.add(entry.getValue().get(it));
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+
 
 }
