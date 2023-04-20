@@ -108,18 +108,7 @@ public class GraphParse {
     //Output the graphs statistics to a file, given the filePath
     public void outputGraph(String filePath){
         String outputString = toString();
-        File outputFile = new File(filePath);
-        try{
-            if(outputFile.createNewFile())
-                System.out.println("File Created " + outputFile.getName());
-            else {
-                System.out.println("File already Exists");
-            }
-
-        }catch (IOException e){
-            System.out.println("Error");
-            e.printStackTrace();
-        }
+        File outputFile = createOutputFile(filePath);
         try{
             FileWriter out = new FileWriter(outputFile);
             out.write(outputString);
@@ -218,18 +207,7 @@ public class GraphParse {
     public void outputDOTGraph(String path){
         Graphviz viz = Graphviz.fromGraph(g);
         String dot = viz.render(Format.DOT).toString();
-        File outputFile = new File(path);
-        try{
-            if(outputFile.createNewFile())
-                System.out.println("File Created " + outputFile.getName());
-            else {
-                System.out.println("File already Exists");
-            }
-
-        }catch (IOException e){
-            System.out.println("Error");
-            e.printStackTrace();
-        }
+        File outputFile = createOutputFile(path);
         try{
             FileWriter out = new FileWriter(outputFile);
             out.write(dot.trim());
@@ -362,6 +340,24 @@ public boolean DFS(String src, String dst)
             }
         }
         return false;
+    }
+
+    public File createOutputFile(String filePath)
+    {
+        File outputFile = new File(filePath);
+        try{
+            if(outputFile.createNewFile())
+                System.out.println("File Created " + outputFile.getName());
+            else {
+                System.out.println("File already Exists");
+            }
+
+        }catch (IOException e){
+            System.out.println("Error");
+            e.printStackTrace();
+        }
+        return outputFile;
+
     }
 
 
