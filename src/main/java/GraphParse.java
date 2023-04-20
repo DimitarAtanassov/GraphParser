@@ -19,7 +19,7 @@ import static guru.nidi.graphviz.model.Factory.*;
 
 public class GraphParse {
     private MutableGraph g;
-    private ArrayList<String> nodeList;
+    public ArrayList<String> nodeList;
     Map<String, LinkedList<String>> adj;
     String bfsPath = "";
     String dfsPath = "";
@@ -229,6 +229,9 @@ public class GraphParse {
     {
         return g.edges().size();
     }
+    public ArrayList<String> getNodeList(){
+        return nodeList;
+    }
     public boolean containsEdge(String nodeA, String nodeB)
     {
         String dot = createDotString();
@@ -270,71 +273,71 @@ public class GraphParse {
     {
         adj.get(v1).add(v2);
     }
-    public void BFS(String src, String dst)
-    {
-        adjListSetup();
-        Set<String> visited = new HashSet<String>();
-        LinkedList<String> queue = new LinkedList<String>();
-        queue.add(src);
-        visited.add(src);
-        while(queue.isEmpty() == false)
-        {
-            int size = queue.size();
-            for(int i = 0 ; i < size; ++i)
-            {
-                String curr = queue.getFirst();
-                bfsPath = bfsPath+ curr + "->";
-                if(curr.equals(dst))
-                {
-                    return;
-                }
-                for(Map.Entry<String,LinkedList<String>> entry : adj.entrySet())
-                {
-                    if(entry.getKey().equals(curr))
-                    {
-                        for(int it = 0; it < entry.getValue().size(); it++)
-                        {
-                            if(visited.contains(entry.getValue().get(it)) == false)
-                            {
-                                queue.add(entry.getValue().get(it));
-                                visited.add(entry.getValue().get(it));
-                            }
-                        }
-                    }
-                }
-                queue.removeFirst();
-            }
-        }
-    }
-public boolean DFS(String src, String dst)
-    {
-        adjListSetup();
-        Set<String> visited = new HashSet<String>();
-        Stack<String> stack = new Stack<String>();
-        stack.add(src);
-        while(stack.isEmpty() == false)
-        {
-            String curr = stack.pop();
-            dfsPath = dfsPath + curr + "->";
-            if(curr.equals(dst))
-            {
-                return true;
-            }
-            for(Map.Entry<String,LinkedList<String>> entry : adj.entrySet())
-            {
-                if(entry.getKey().equals(curr)){
-                    for(int it = 0; it < entry.getValue().size(); it++){
-                        if(visited.contains(entry.getValue().get(it)) == false)
-                        {
-                            visited.add(entry.getValue().get(it));
-                            stack.add(entry.getValue().get(it));
-                        }
-                    }
-                }
-            }
-        }
-        return false;
-    }
+//    public void BFS(String src, String dst)
+//    {
+//        adjListSetup();
+//        Set<String> visited = new HashSet<String>();
+//        LinkedList<String> queue = new LinkedList<String>();
+//        queue.add(src);
+//        visited.add(src);
+//        while(queue.isEmpty() == false)
+//        {
+//            int size = queue.size();
+//            for(int i = 0 ; i < size; ++i)
+//            {
+//                String curr = queue.getFirst();
+//                bfsPath = bfsPath+ curr + "->";
+//                if(curr.equals(dst))
+//                {
+//                    return;
+//                }
+//                for(Map.Entry<String,LinkedList<String>> entry : adj.entrySet())
+//                {
+//                    if(entry.getKey().equals(curr))
+//                    {
+//                        for(int it = 0; it < entry.getValue().size(); it++)
+//                        {
+//                            if(visited.contains(entry.getValue().get(it)) == false)
+//                            {
+//                                queue.add(entry.getValue().get(it));
+//                                visited.add(entry.getValue().get(it));
+//                            }
+//                        }
+//                    }
+//                }
+//                queue.removeFirst();
+//            }
+//        }
+//    }
+//public boolean DFS(String src, String dst)
+//    {
+//        adjListSetup();
+//        Set<String> visited = new HashSet<String>();
+//        Stack<String> stack = new Stack<String>();
+//        stack.add(src);
+//        while(stack.isEmpty() == false)
+//        {
+//            String curr = stack.pop();
+//            dfsPath = dfsPath + curr + "->";
+//            if(curr.equals(dst))
+//            {
+//                return true;
+//            }
+//            for(Map.Entry<String,LinkedList<String>> entry : adj.entrySet())
+//            {
+//                if(entry.getKey().equals(curr)){
+//                    for(int it = 0; it < entry.getValue().size(); it++){
+//                        if(visited.contains(entry.getValue().get(it)) == false)
+//                        {
+//                            visited.add(entry.getValue().get(it));
+//                            stack.add(entry.getValue().get(it));
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//        return false;
+//    }
 
     public File createOutputFile(String filePath)
     {
@@ -367,6 +370,96 @@ public boolean DFS(String src, String dst)
         String renderedString = viz.render(Format.DOT).toString();
         return renderedString;
 
+    }
+
+    abstract class GraphAlgo
+    {
+        public abstract boolean algoTraversal(String src, String dst);
+        public final void algo(String src, String dst)
+        {
+            adjListSetup();
+            algoTraversal(src, dst);
+        }
+    }
+    class BFS extends GraphAlgo
+    {
+        @Override
+        public boolean algoTraversal(String src, String dst) {
+            Set<String> visited = new HashSet<String>();
+            LinkedList<String> queue = new LinkedList<String>();
+            queue.add(src);
+            visited.add(src);
+            while(queue.isEmpty() == false)
+            {
+                int size = queue.size();
+                for(int i = 0 ; i < size; ++i)
+                {
+                    String curr = queue.getFirst();
+                    bfsPath = bfsPath+ curr + "->";
+                    if(curr.equals(dst))
+                    {
+                        return true;
+                    }
+                    for(Map.Entry<String,LinkedList<String>> entry : adj.entrySet())
+                    {
+                        if(entry.getKey().equals(curr))
+                        {
+                            for(int it = 0; it < entry.getValue().size(); it++)
+                            {
+                                if(visited.contains(entry.getValue().get(it)) == false)
+                                {
+                                    queue.add(entry.getValue().get(it));
+                                    visited.add(entry.getValue().get(it));
+                                }
+                            }
+                        }
+                    }
+                    queue.removeFirst();
+                }
+            }
+            return false;
+        }
+    }
+    class DFS extends GraphAlgo
+    {
+        @Override
+        public boolean algoTraversal(String src, String dst) {
+            Set<String> visited = new HashSet<String>();
+            Stack<String> stack = new Stack<String>();
+            stack.add(src);
+            while(stack.isEmpty() == false)
+            {
+                String curr = stack.pop();
+                dfsPath = dfsPath + curr + "->";
+                if(curr.equals(dst))
+                {
+                    return true;
+                }
+                for(Map.Entry<String,LinkedList<String>> entry : adj.entrySet())
+                {
+                    if(entry.getKey().equals(curr)){
+                        for(int it = 0; it < entry.getValue().size(); it++){
+                            if(visited.contains(entry.getValue().get(it)) == false)
+                            {
+                                visited.add(entry.getValue().get(it));
+                                stack.add(entry.getValue().get(it));
+                            }
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+    }
+    class TemplateMethodPatternClient
+    {
+        public void main(String[] args)
+        {
+            GraphAlgo BFS = new BFS();
+            BFS.algoTraversal("a","d");
+            GraphAlgo DFS = new DFS();
+
+        }
     }
 
 

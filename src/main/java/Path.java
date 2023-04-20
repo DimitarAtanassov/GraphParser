@@ -23,11 +23,13 @@ public class Path {
         switch(userChoice)
         {
           case bfsAlgo:
-            graph.BFS(src,dst);
+              GraphParse.GraphAlgo BFS = graph.new BFS();
+              BFS.algo(src,dst);
             System.out.println(graph.bfsPath.substring(0, graph.bfsPath.length() - 2));
             break;
            case dfsAlgo:
-             graph.DFS(src,dst);
+               GraphParse.GraphAlgo DFS = graph.new DFS();
+               DFS.algo(src,dst);
              System.out.println(graph.dfsPath.substring(0, graph.dfsPath.length() - 2));
              break;
         }
