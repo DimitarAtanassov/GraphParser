@@ -49,7 +49,7 @@ public class GraphParse {
         nodeLabelsFromString.toString();
         for(int i = 0; i < nodeLabelsFromString.length; i++) {
             testing = nodeLabelsFromString[i].split("->");
-            if(testing.length == 2)
+            if(testing.length != 1)
             {
                 nodeList.add(testing[0].trim());
                 nodeList.add(testing[1].trim());
@@ -121,7 +121,7 @@ public class GraphParse {
 
 
     public void addNode(String label) {
-        if(nodeList.contains(label) == false){
+        if(!nodeList.contains(label)){
             g.add(
                    mutNode(label)
             );
