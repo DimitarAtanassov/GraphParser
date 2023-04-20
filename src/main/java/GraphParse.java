@@ -23,6 +23,7 @@ public class GraphParse {
     Map<String, LinkedList<String>> adj;
     String bfsPath = "";
     String dfsPath = "";
+    String randPath ="";
     String graphDir;
 
     //Constructor
@@ -451,17 +452,31 @@ public class GraphParse {
             return false;
         }
     }
-    class TemplateMethodPatternClient
+    class RandomWalk extends GraphAlgo
     {
-        public void main(String[] args)
-        {
-            GraphAlgo BFS = new BFS();
-            BFS.algoTraversal("a","d");
-            GraphAlgo DFS = new DFS();
-
+        @Override
+        public boolean algoTraversal(String src, String dst) {
+            Set<String> visited = new HashSet<String>();
+            Random randNum = new Random();
+            String curr = src;
+            while(!curr.equals(dst) && adj.containsKey(curr))
+            {
+                List<String> neighbors = adj.get(curr);
+                int randIn = randNum.nextInt(neighbors.size());
+                String next = neighbors.get(randIn);
+                randPath = randPath + curr + "->";
+                visited.add(curr);
+                curr = next;
+            }
+            randPath = randPath + curr + "->";
+            if(curr.equals(dst))
+            {
+                return true;
+            }else {
+                return false;
+            }
         }
     }
-
 
 
 }
