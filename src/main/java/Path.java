@@ -46,4 +46,13 @@ public class Path {
             System.out.println(graph.dfsPath.substring(0, graph.dfsPath.length() - 2));
         }
     }
+    public class randWalkAlgo implements GraphingAlgo
+    {
+        @Override
+        public void algo(String src, String dst) {
+            GraphParse.GraphAlgo randWalk = graph.new RandomWalk();
+            randWalk.algo(src,dst);
+            System.out.println(graph.randPath.substring(0, graph.randPath.length() - 2));
+        }
+    }
 }
