@@ -239,7 +239,7 @@ public class GraphParse {
     {
         Graphviz viz = Graphviz.fromGraph(g);
         String dot = viz.render(Format.DOT).toString();
-        String edgeToAdd = "\"" + nodeA + "\"" + " -> " + "\"" + nodeB + "\"";
+        String edgeToAdd = removeQuote(nodeA,nodeB);
         if(dot.contains(edgeToAdd) == true) return true;
         else {
             return false;
