@@ -20,8 +20,11 @@ public class Main {
         //Scanner myObj = new Scanner(System.in);
         //System.out.println("Enter (bfsAlgo) for BFS traversal and Enter (dfsAlgo) for DFS traversal ");
        // algoChoice userInput = algoChoice.valueOf(myObj.nextLine());
-        path = new Path("input.dot", algoChoice.dfsAlgo);
-        path.GraphSearch("a","d");
+        path = new Path("input.dot");
+        Path.GraphingAlgo algo = path.new dfsAlgo();
+        path.GraphSearch("a","d",algo);
+
+
 
     }
 }
