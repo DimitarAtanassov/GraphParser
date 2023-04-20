@@ -180,7 +180,7 @@ public class GraphParse {
     public void addEdge(String srcLabel, String dstLabel) throws IOException {
         Graphviz viz = Graphviz.fromGraph(g);
         String dot = viz.render(Format.DOT).toString();
-        String edgeToAdd = "\"" + srcLabel + "\"" + " -> " + "\"" + dstLabel + "\"";
+        String edgeToAdd = removeQuote(srcLabel,dstLabel);
         int indexTwo = dot.indexOf("}");
         String newDot = "";
         if(dot.contains(edgeToAdd) == false)
@@ -198,7 +198,8 @@ public class GraphParse {
     public void removeEdge(String srcLabel, String dstLabel) throws IOException {
         Graphviz viz = Graphviz.fromGraph(g);
         String dot = viz.render(Format.DOT).toString();
-        String edgeToRemove = "\"" + srcLabel + "\"" + " -> " + "\"" + dstLabel + "\"" +"\n";
+        String edgeToRemove = removeQuote(srcLabel,dstLabel);
+        edgeToRemove = edgeToRemove +"\n";
         String edgeToRemoveEdit = edgeToRemove.replace("->", "");
         dot = dot.replace(edgeToRemove, edgeToRemoveEdit);
         g = new Parser().read(dot).setDirected(true);
@@ -357,6 +358,13 @@ public boolean DFS(String src, String dst)
             e.printStackTrace();
         }
         return outputFile;
+
+    }
+
+    public String removeQuote(String srcLabel, String dstLabel)
+    {
+        String newString = "\"" + srcLabel + "\"" + " -> " + "\"" + dstLabel + "\"";
+        return newString;
 
     }
 
