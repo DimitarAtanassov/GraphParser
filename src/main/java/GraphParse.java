@@ -39,8 +39,7 @@ public class GraphParse {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        Graphviz viz = Graphviz.fromGraph(g);
-        String renderedString = viz.render(Format.DOT).toString();
+        String renderedString = createDotString();
         graphDir = renderedString.substring(renderedString.indexOf("{") + 2, renderedString.indexOf("}")+1-1);
         String[] nodeLabelsFromString = null;
         String[] testing = null;
@@ -70,8 +69,7 @@ public class GraphParse {
     //nodes and the edge direction of edges (e.g., a -> b)
     public String toString()
     {
-        Graphviz viz = Graphviz.fromGraph(g);
-        String renderedString = viz.render(Format.DOT).toString();
+        String renderedString = createDotString();
         graphDir = renderedString.substring(renderedString.indexOf("{") + 2, renderedString.indexOf("}")+1-1);
         String edgeCount = Integer.toString(g.edges().size());
         String nodeCount = Integer.toString(g.nodes().size());
@@ -132,8 +130,7 @@ public class GraphParse {
         }
     }
     public void removeNode(String label){
-        Graphviz viz = Graphviz.fromGraph(g);
-        String dot = viz.render(Format.DOT).toString();
+        String dot = createDotString();
         String formatParamRight = "\"" + label + "\"" + " -> ";
         String formatParamLeft = " -> " + "\"" + label + "\"";
         String formatParamSingle = "\"" + label + "\"";
@@ -178,8 +175,7 @@ public class GraphParse {
     }
 
     public void addEdge(String srcLabel, String dstLabel) throws IOException {
-        Graphviz viz = Graphviz.fromGraph(g);
-        String dot = viz.render(Format.DOT).toString();
+        String dot = createDotString();
         String edgeToAdd = removeQuote(srcLabel,dstLabel);
         int indexTwo = dot.indexOf("}");
         String newDot = "";
@@ -196,8 +192,7 @@ public class GraphParse {
         }
     }
     public void removeEdge(String srcLabel, String dstLabel) throws IOException {
-        Graphviz viz = Graphviz.fromGraph(g);
-        String dot = viz.render(Format.DOT).toString();
+        String dot = createDotString();
         String edgeToRemove = removeQuote(srcLabel,dstLabel);
         edgeToRemove = edgeToRemove +"\n";
         String edgeToRemoveEdit = edgeToRemove.replace("->", "");
@@ -206,8 +201,7 @@ public class GraphParse {
         System.out.println("The edge from " + srcLabel + " to " + dstLabel + " has been removed");
     }
     public void outputDOTGraph(String path){
-        Graphviz viz = Graphviz.fromGraph(g);
-        String dot = viz.render(Format.DOT).toString();
+        String dot = createDotString();
         File outputFile = createOutputFile(path);
         try{
             FileWriter out = new FileWriter(outputFile);
@@ -237,8 +231,7 @@ public class GraphParse {
     }
     public boolean containsEdge(String nodeA, String nodeB)
     {
-        Graphviz viz = Graphviz.fromGraph(g);
-        String dot = viz.render(Format.DOT).toString();
+        String dot = createDotString();
         String edgeToAdd = removeQuote(nodeA,nodeB);
         if(dot.contains(edgeToAdd) == true) return true;
         else {
@@ -365,6 +358,14 @@ public boolean DFS(String src, String dst)
     {
         String newString = "\"" + srcLabel + "\"" + " -> " + "\"" + dstLabel + "\"";
         return newString;
+
+    }
+
+    public String createDotString()
+    {
+        Graphviz viz = Graphviz.fromGraph(g);
+        String renderedString = viz.render(Format.DOT).toString();
+        return renderedString;
 
     }
 
