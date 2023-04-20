@@ -17,10 +17,10 @@ public class Main {
         graph.outputDOTGraph("output1.dot");
         graph.outputGraphics("output3.png");
         Path path;
-        Scanner myObj = new Scanner(System.in);
-        System.out.println("Enter (bfsAlgo) for BFS traversal and Enter (dfsAlgo) for DFS traversal ");
-        algoChoice userInput = algoChoice.valueOf(myObj.nextLine());
-        path = new Path("input.dot", userInput);
+        //Scanner myObj = new Scanner(System.in);
+        //System.out.println("Enter (bfsAlgo) for BFS traversal and Enter (dfsAlgo) for DFS traversal ");
+       // algoChoice userInput = algoChoice.valueOf(myObj.nextLine());
+        path = new Path("input.dot", algoChoice.bfsAlgo);
         path.GraphSearch("a","d");
 
     }
